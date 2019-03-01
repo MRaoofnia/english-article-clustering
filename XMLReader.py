@@ -7,19 +7,19 @@ class Reader:
     def __init__(self):
         id = 1
         URL = "http://jad.shahroodut.ac.ir/"
-        for counter in range(200): 
+        counter = 1
+        while counter < 200: 
             PARAMS = {'_action':'xml','article':id} 
             req = requests.get(url = URL, params = PARAMS)
             result = self.parse_xml(req.text)
-            print(req.text)
             if result != None:
                 counter = 1
                 self.articles.append(result)
-                print(result)
+                print('article read: http://jad.shahroodut.ac.ir/?_action=xml&article=%d'%id)
             else:
-                print(PARAMS)
-                print('empty url')
+                print('empty url: http://jad.shahroodut.ac.ir/?_action=xml&article=%d'%id)
             id += 1
+            counter += 1
 
     def parse_xml(self, context):
         if 'Journal' in context: #to check if url contains an XML with article
@@ -28,3 +28,5 @@ class Reader:
             return Article(abstract, title)
         else:
             return None
+
+re = Reader()
